@@ -8,98 +8,107 @@
     <style>
         /* 不要问我为什么把css和html写在同一个文件里，懒 */
 
-body {
-    background-image: url("https://img1.imgtp.com/2023/08/14/AK4fREuS.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    animation: bg-move 10s infinite linear; 
-}
+        body {
+            background-image: url("https://img1.imgtp.com/2023/08/14/AK4fREuS.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            animation: bg-move 10s infinite linear; 
+        }
 
 
-.container {
-    width: 80%;
-    margin: 0 auto;
-}
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
 
-.card {
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 25px;
-    padding: 80px;
-    margin-top: 100px;
-    margin-bottom: 100px;
-}
+        .card {
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            padding: 80px;
+            margin-top: 100px;
+            margin-bottom: 100px;
+        }
 
-.title {
-    text-align: center;
-    font-size: 36px;
-    font-weight: bold;
-    color: #000000;
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #000000;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
 
-.title-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .title-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.logo {
-    margin-right: 10px;
-    height: 50px;
-    align-items: center;
-}
+        .logo {
+            margin-right: 10px;
+            height: 50px;
+            align-items: center;
+        }
 
 
-.description {
-    text-align: center;
-    font-size: 18px;
-    color: #3a3a3a;
-    margin-bottom: 50px;
-}
+        .description {
+            text-align: center;
+            font-size: 18px;
+            color: #3a3a3a;
+            margin-bottom: 50px;
+        }
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.button {
-    width: 150px;
-    height: 50px;
-    border-radius: 15px;
-    border: none;
-    color: white;
-    font-size: 18px;
-    margin-left: 20px;
-    margin-right: 20px;
-    cursor: pointer;
-    transition: transform 0.3s; 
-}
+        .button {
+            width: 150px;
+            height: 50px;
+            border-radius: 15px;
+            border: none;
+            color: white;
+            font-size: 18px;
+            margin-left: 20px;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: transform 0.3s; 
+        }
 
-.button-1 {
-    background-color: #ff9900;
-}
+        .button-1 {
+            background-color: #ff9900;
+        }
 
-.button-2 {
-    background-color: #3399ff;
-}
+        .button-2 {
+            background-color: #3399ff;
+        }
 
-.button:hover {
-    transform: scale(1.1);
-    transition-duration: 0.3s;
-}
+        .button:hover {
+            transform: scale(1.1);
+            transition-duration: 0.3s;
+        }
 
-@media screen and (orientation: portrait) {
-  .buttons {
-      flex-direction: column; 
-  }
-  .button {
-      margin-top: 20px; 
-      margin-bottom: 20px; 
-  }
-}
+        @media screen and (orientation: portrait) {
+        .container {
+            width: 90%; 
+        }
+        .title {
+            font-size: 24px; 
+        }
+        .description {
+            font-size: 16px; 
+        }
+        .buttons {
+            flex-direction: column; 
+        }
+        .button {
+            margin-top: 20px; 
+            margin-bottom: 20px; 
+        }
+        }
 
     </style>
 </head>
