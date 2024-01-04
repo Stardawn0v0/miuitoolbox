@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIUI工具箱</title>
     <link rel="icon" href="./pluginlogo.webp">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
         /* 不要问我为什么把css和html写在同一个文件里，懒 */
 
@@ -76,19 +77,22 @@
             margin-left: 20px;
             margin-right: 20px;
             cursor: pointer;
-            transition: transform 0.3s; 
+            transition: transform 0.3s;
         }
 
         .button-1 {
             background-color: #ff9900;
+            background-image: linear-gradient(to bottom right, #ff9900, #FF675B);
         }
 
         .button-2 {
             background-color: #3399ff;
+            background-image: linear-gradient(to bottom right, #00B7D3, #508BD5);
         }
 
         .button-3 {
             background-color: #9eaf5a;
+            background-image: linear-gradient(to bottom right, #9eaf5a, #007464);
         }
 
         .button:hover {
@@ -96,54 +100,69 @@
             transition-duration: 0.3s;
         }
 
-        @media screen and (orientation: portrait) {
-        .container {
-            width: 95%; 
-        }
-        .title {
-            font-size: 24px; 
-        }
-        .description {
-            font-size: 16px; 
-        }
-        .buttons {
-            flex-direction: column; 
-        }
-        .button {
-            margin-top: 20px; 
-            margin-bottom: 20px; 
-        }
+
+        .button:hover {
+            transform: scale(1.1);
+            transition-duration: 0.3s;
         }
 
+        @media screen and (orientation: portrait) {
+            .container {
+                width: 95%;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
-      <div class="card">
-        <div class="title-container">
-            <img src="./pluginlogo.webp" alt="图标" class="logo animate__animated animate__fadeInUp">
-            <h1 class="title animate__animated animate__fadeInUp">MIUI工具箱</h1>
-        </div>               
-        <p class="description animate__animated animate__fadeInUp">集一键ROOT、一键线刷、字库备份等功能为一体的<del>全能</del>工具箱<br>天玑设备暂时别用，等待无限重启问题修复</p>
-        <div class="buttons animate__animated animate__fadeInUp">
-            <button class="button button-1" onclick="window.open('https://www.123pan.com/s/a839-epVBv.html', '_blank')">工具下载</button>
-            <button class="button button-2" onclick="window.open('https://pd.qq.com/s/1k5rqroyo', '_blank')">加入频道</button>
-            <button class="button button-3" onclick="window.open('https://wiki.flashcorpa.top', '_blank')">软件文档</button>
-          </div>
-      </div>
-      <div class="card">
-        <p class="description animate__animated animate__fadeInUp">问题反馈请将邮件发送到</p>
-        <p class="description animate__animated animate__fadeInUp">feedback@xisentoolbox.cc</p>
-        <p class="description animate__animated animate__fadeInUp">请以“MIUI工具箱问题反馈”为题，否则邮件将被过滤</p>
-        <div class="description animate__animated animate__fadeInUp">会优先处理有效信息较多的反馈，故在反馈时请带上：<br>
-            1-电脑系统版本<br>
-            2-手机/平板的型号<br>
-            3-你在进行什么操作<br>
-            4-错误日志（程序目录下的log文件）</div>
-      </div>
-      <div class="card">
-        <p class="description animate__animated animate__fadeInUp">广告位招租</p>
-      </div>
+        <div class="card">
+            <div class="title-container">
+                <img src="./pluginlogo.webp" alt="图标" class="logo animate__animated animate__fadeInUp">
+                <h1 class="title animate__animated animate__fadeInUp">MIUI工具箱</h1>
+            </div>
+            <p class="description animate__animated animate__fadeInUp">
+                集一键ROOT、一键线刷、字库备份等功能为一体的<del>全能</del>工具箱<br>天玑设备暂时别用，等待无限重启问题修复</p>
+            <div class="buttons animate__animated animate__fadeInUp">
+                <button class="button button-1"
+                    onclick="window.open('https://www.123pan.com/s/a839-epVBv.html', '_blank')">工具下载</button>
+                <button class="button button-2"
+                    onclick="window.open('https://pd.qq.com/s/1k5rqroyo', '_blank')">加入频道</button>
+                <button class="button button-3"
+                    onclick="window.open('https://wiki.flashcorpa.top', '_blank')">软件文档</button>
+            </div>
+        </div>
+        <div class="card">
+            <p class="description animate__animated animate__fadeInUp">问题反馈请将邮件发送到</p>
+            <p class="description animate__animated animate__fadeInUp">feedback@xisentoolbox.cc</p>
+            <p class="description animate__animated animate__fadeInUp">请以“MIUI工具箱问题反馈”为题，否则邮件将被过滤</p>
+            <div class="description animate__animated animate__fadeInUp">会优先处理有效信息较多的反馈，故在反馈时请带上：<br>
+                1-电脑系统版本<br>
+                2-手机/平板的型号<br>
+                3-你在进行什么操作<br>
+                4-错误日志（程序目录下的log文件）</div>
+        </div>
+        <div class="card">
+            <p class="description animate__animated animate__fadeInUp">广告位招租</p>
+        </div>
     </div>
 </body>
+
 </html>
