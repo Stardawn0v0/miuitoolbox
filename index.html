@@ -129,6 +129,15 @@
             }
         }
     </style>
+    <script>
+        function checkOSAndDownload() {
+            if (navigator.userAgent.indexOf("Windows NT 6.1") != -1) {
+                alert("您的操作系统（Windows 7）可能无法运行此应用程序");
+            } else {
+                window.open('https://www.123pan.com/s/a839-epVBv.html', '_blank');
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -142,7 +151,7 @@
                 集一键ROOT、一键线刷、字库备份等功能为一体的<del>全能</del>工具箱<br>仅支持Windows10及以上系统</p>
             <div class="buttons animate__animated animate__fadeInUp">
                 <button class="button button-1"
-                    onclick="window.open('https://www.123pan.com/s/a839-epVBv.html', '_blank')">工具下载</button>
+                    onclick="checkOSAndDownload()">工具下载</button>
                 <button class="button button-2"
                     onclick="window.open('https://pd.qq.com/s/1k5rqroyo', '_blank')">加入频道</button>
                 <button class="button button-3"
