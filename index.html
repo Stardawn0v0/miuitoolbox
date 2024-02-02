@@ -132,7 +132,10 @@
     <script>
         function checkOSAndDownload() {
             if (navigator.userAgent.indexOf("Windows NT 6.1") != -1) {
-                alert("您的操作系统（Windows 7）可能无法运行此应用程序");
+                var isContinue = confirm("您的操作系统可能无法运行此应用程序。您仍然想要继续下载吗？");
+                if (isContinue) {
+                    window.open('https://www.123pan.com/s/a839-epVBv.html', '_blank');
+                }
             } else {
                 window.open('https://www.123pan.com/s/a839-epVBv.html', '_blank');
             }
