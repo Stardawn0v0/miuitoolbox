@@ -18,7 +18,6 @@
             background-attachment: fixed;
         }
 
-
         .container {
             width: 80%;
             margin: 0 auto;
@@ -53,7 +52,6 @@
             align-items: center;
         }
 
-
         .description {
             text-align: center;
             font-size: 18px;
@@ -78,6 +76,7 @@
             margin-right: 20px;
             cursor: pointer;
             transition: transform 0.3s;
+            position: relative;
         }
 
         .button-1 {
@@ -100,10 +99,37 @@
             transition-duration: 0.3s;
         }
 
+        .qrcode-container {
+  position: absolute;
+  bottom: -100%;
+  left: 170%; 
+  transform: translate(-50%, 10px);
+  display: none;
+  z-index: 1;
+  background-color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 180px;
+}
 
-        .button:hover {
-            transform: scale(1.1);
-            transition-duration: 0.3s;
+.qrcode-container p {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #000;
+}
+
+.qrcode-container img {
+  max-width: 100%;
+  height: auto; 
+}
+
+        .button:hover .qrcode-container {
+            display: block;
         }
 
         @media screen and (orientation: portrait) {
@@ -132,11 +158,13 @@
     <script>
         function setupDownloadButton() {
             var downloadButton = document.querySelector('.button.button-1');
+
             downloadButton.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
                 checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
             });
         }
+
         function checkOSAndDownload(link) {
             if (navigator.userAgent.indexOf("Windows NT 6.1") !== -1) {
                 var isContinue = confirm("您的操作系统可能无法运行此应用程序。您仍然想要继续下载吗？");
@@ -147,6 +175,7 @@
                 window.open(link, '_blank');
             }
         }
+
         document.addEventListener('DOMContentLoaded', setupDownloadButton);
     </script>
 </head>
@@ -161,18 +190,24 @@
             <p class="description animate__animated animate__fadeInUp">
                 集一键ROOT、一键线刷、字库备份等功能为一体的<del>全能</del>工具箱<br>仅支持Windows10及以上系统</p>
             <div class="buttons animate__animated animate__fadeInUp">
-                <button class="button button-1"
-                    onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')">工具下载</button>
                 <button class="button button-2"
                     onclick="window.open('https://pd.qq.com/s/1k5rqroyo', '_blank')">加入频道</button>
                 <button class="button button-3"
                     onclick="window.open('https://wiki.flashcorpa.top', '_blank')">软件文档</button>
+                <button class="button button-1"
+                    onclick="checkOSAndDownload('https://drive.uc.cn/s/211a658cdd5c4')">
+                    工具下载
+                    <div class="qrcode-container">
+                        <img src="qr.svg" alt="QR Code">
+                        <p>手机扫码下载不限速</p>
+                    </div>
+                </button>
             </div>
         </div>
         <div class="card">
             <p class="description animate__animated animate__fadeInUp">问题反馈请将邮件发送到</p>
             <p class="description animate__animated animate__fadeInUp">feedback@xisentoolbox.cc</p>
-            <p class="description animate__animated animate__fadeInUp">请以“MIUI工具箱问题反馈”为题，否则邮件将被过滤</p>
+            <p class="description animate__animated animate__fadeInUp">请以"MIUI工具箱问题反馈"为题，否则邮件将被过滤</p>
             <div class="description animate__animated animate__fadeInUp">会优先处理有效信息较多的反馈，故在反馈时请带上：<br>
                 1-电脑系统版本<br>
                 2-手机/平板的型号<br>
@@ -181,7 +216,7 @@
                 5-如果存在崩溃、闪退等情况，告诉我工具崩溃前给你的最后一句文字提示或发送崩溃前一刻的截图</div>
         </div>
         <div class="card">
-            <p class="description animate__animated animate__fadeInUp">冷知识：右击“工具下载”按钮可打开123盘不限速下载链接<br>但如果不忙的话还是建议使用移动端夸克转存下载，因为我这边会有几毛钱的返利，相当于变相支持工具开发了，谢谢</p>
+            <p class="description animate__animated animate__fadeInUp">冷知识：右击"工具下载"按钮可打开123盘不限速下载链接<br>但如果不忙的话还是建议使用移动端夸克转存下载，因为我这边会有几毛钱的返利，相当于变相支持工具开发了，谢谢</p>
         </div>
     </div>
 </body>
