@@ -7,7 +7,6 @@
     <title>MIUI工具箱</title>
     <link rel="icon" href="./pluginlogo.webp">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* 不要问我为什么把css和html写在同一个文件里，懒 */
 
@@ -107,19 +106,6 @@
             transition-duration: 0.3s;
         }
 
-        .qrcode-container {
-              display: none;
-              position: absolute;
-              top: 100%;
-              left: 50%;
-              transform: translateX(-50%);
-              background-color: white;
-              padding: 10px;
-              border-radius: 5px;
-              box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-              margin-top: 10px;
-}
-
         @media screen and (orientation: portrait) {
             .container {
                 width: 95%;
@@ -146,18 +132,6 @@
     <script>
         function setupDownloadButton() {
             var downloadButton = document.querySelector('.button.button-1');
-  var qrcodeContainer = document.querySelector('.qrcode-container');
-
-  downloadButton.addEventListener('mouseenter', function() {
-    QRCode.toCanvas(qrcodeContainer, '100536542939', { width: 100 }, function (error) {
-      if (error) console.error(error);
-      qrcodeContainer.style.display = 'block';
-    });
-  });
-
-  downloadButton.addEventListener('mouseleave', function() {
-    qrcodeContainer.style.display = 'none';
-  });
             downloadButton.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
                 checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
@@ -187,10 +161,8 @@
             <p class="description animate__animated animate__fadeInUp">
                 集一键ROOT、一键线刷、字库备份等功能为一体的<del>全能</del>工具箱<br>仅支持Windows10及以上系统</p>
             <div class="buttons animate__animated animate__fadeInUp">
-                <div style="position: relative;">
-  <button class="button button-1" onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')">工具下载</button>
-  <div class="qrcode-container"></div>
-</div>
+                <button class="button button-1"
+                    onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')">工具下载</button>
                 <button class="button button-2"
                     onclick="window.open('https://pd.qq.com/s/1k5rqroyo', '_blank')">加入频道</button>
                 <button class="button button-3"
