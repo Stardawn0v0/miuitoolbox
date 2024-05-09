@@ -162,15 +162,14 @@
 
             downloadButton.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
-                // checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
-                // 对的 仅仅是注释掉而不是删掉 链接还能撑多久我也不知道
-                checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801');
+                checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
+                // checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801');
             });
         }
 
         function checkOSAndDownload(link) {
             if (navigator.userAgent.indexOf("Windows NT 6.1") !== -1) {
-                var isContinue = confirm("您的操作系统可能无法运行此应用程序。您仍然想要继续下载吗？");
+                var isContinue = confirm("您的操作系统可能无法运行此应用程序，仍然想要继续下载吗？");
                 if (isContinue) {
                     window.open(link, '_blank');
                 }
@@ -199,7 +198,7 @@
                     onclick="window.open('https://wiki.flashcorpa.top', '_blank')">软件文档</button>
                 <button class="button button-1"
                     onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')">
-                    工具下载
+                    工具下载</button>
                     <div class="qrcode-container">
                         <img src="qr.svg" alt="QR Code">
                         <p>手机扫码下载不限速</p>
