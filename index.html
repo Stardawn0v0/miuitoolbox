@@ -4,14 +4,17 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHCXTBPFW"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6612998629482048"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-WFHCXTBPFW');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-WFHCXTBPFW');
     </script>
+    <title>Hyper工具箱 - StardawnSoftware</title>
+    <link rel="icon" href="picture/hypertoolbox.webp" type="image/x-icon">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;700&display=swap');
@@ -145,7 +148,8 @@
             font-weight: 500;
             border: none;
             cursor: pointer;
-            font-size: 16px; /* 设置按钮的字体大小 */
+            font-size: 16px;
+            /* 设置按钮的字体大小 */
         }
 
         .button:hover {
@@ -178,7 +182,7 @@
         function setupDownloadButton() {
             var downloadButton = document.querySelector('.button');
 
-            downloadButton.addEventListener('contextmenu', function(event) {
+            downloadButton.addEventListener('contextmenu', function (event) {
                 event.preventDefault();
                 // 我在这里藏了一个123盘链接
                 // checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
@@ -275,16 +279,16 @@
 
         <div class="card markdown-card" data-software="miuitoolbox">
             <p>问题反馈请将邮件发送到</p>
-<p><a href="mailto:feedback@xisentoolbox.cc">feedback@xisentoolbox.cc</a></p>
-<p>请以"MIUI工具箱问题反馈"为题，否则邮件将被过滤</p>
-<p>会优先处理有效信息较多的反馈，故在反馈时请带上：</p>
-<ol>
-<li>电脑系统版本</li>
-<li>手机/平板的型号</li>
-<li>你正在进行什么操作</li>
-<li>错误日志</li>
-<li>如果存在崩溃、闪退等情况，告诉我工具崩溃前给你的最后一句文字提示或发送崩溃前一刻的截图</li>
-</ol>
+            <p><a href="mailto:feedback@xisentoolbox.cc">feedback@xisentoolbox.cc</a></p>
+            <p>请以"MIUI工具箱问题反馈"为题，否则邮件将被过滤</p>
+            <p>会优先处理有效信息较多的反馈，故在反馈时请带上：</p>
+            <ol>
+                <li>电脑系统版本</li>
+                <li>手机/平板的型号</li>
+                <li>你正在进行什么操作</li>
+                <li>错误日志</li>
+                <li>如果存在崩溃、闪退等情况，告诉我工具崩溃前给你的最后一句文字提示或发送崩溃前一刻的截图</li>
+            </ol>
 
         </div>
     </main>
@@ -340,6 +344,17 @@
             document.querySelectorAll('.nav-link img').forEach(img => {
                 img.style.fill = isLightColor(color) ? '#323130' : '#ffffff';
             });
+
+            const activeLink = document.querySelector('.nav-link.active');
+            const newTitle = activeLink.textContent.trim();
+            document.title = newTitle;
+
+            const iconPath = activeLink.querySelector('img').src;
+            const linkIcon = document.querySelector('link[rel="icon"]') || document.createElement('link');
+            linkIcon.type = 'image/x-icon';
+            linkIcon.rel = 'icon';
+            linkIcon.href = iconPath;
+            document.getElementsByTagName('head')[0].appendChild(linkIcon);
         }
 
         function adjustColor(color, amount) {
