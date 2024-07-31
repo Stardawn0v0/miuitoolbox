@@ -1,168 +1,360 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIUI工具箱</title>
-    <link rel="icon" href="./pluginlogo.webp">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHCXTBPFW"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6612998629482048"
+     crossorigin="anonymous"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-WFHCXTBPFW');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        /* 不要问我为什么把css和html写在同一个文件里，懒 */
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;700&display=swap');
+
+        :root {
+            --primary-color: #0078d4;
+            --hover-color: #005a9e;
+            --background-color: #59bdff2f;
+            --card-background: #ffffff;
+            --text-color: #323130;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --transition-duration: 0.3s;
+        }
 
         body {
-            background-image: url("https://cia.hyperos.mi.com/hyperos-homepage/idx_pad.png?imageMogr2/thumbnail/900x/quality/80/format/webp");
-            background-color: #cccccc;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
 
-
-        .container {
-            width: 80%;
-            margin: 0 auto;
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 16px 24px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color var(--transition-duration) ease;
         }
 
-        .card {
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 25px;
-            padding: 80px;
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-
-        .title {
-            text-align: center;
-            font-size: 36px;
-            font-weight: bold;
-            color: #000000;
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-
-        .title-container {
+        nav {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .logo {
-            margin-right: 10px;
-            height: 50px;
-            align-items: center;
+            font-size: 24px;
+            font-weight: 500;
         }
 
-
-        .description {
-            text-align: center;
-            font-size: 18px;
-            color: #3a3a3a;
-            margin-bottom: 50px;
-        }
-
-        .buttons {
+        .nav-links {
             display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
             justify-content: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all var(--transition-duration) ease;
+            display: flex;
             align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link img {
+            width: 24px;
+            height: 24px;
+            transition: fill var(--transition-duration) ease;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 4px var(--shadow-color);
+            transition: all var(--transition-duration) ease;
+            opacity: 0;
+            transform: translateY(20px);
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
+        .software-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            margin: 0 0 12px;
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        p {
+            margin: 0 0 20px;
+            line-height: 1.6;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .button {
-            width: 150px;
-            height: 50px;
-            border-radius: 15px;
-            border: none;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
             color: white;
-            font-size: 18px;
-            margin-left: 20px;
-            margin-right: 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all var(--transition-duration) ease;
+            font-weight: 500;
+            border: none;
             cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .button-1 {
-            background-color: #ff9900;
-            background-image: linear-gradient(to bottom right, #ff9900, #FF675B);
-        }
-
-        .button-2 {
-            background-color: #3399ff;
-            background-image: linear-gradient(to bottom right, #00B7D3, #508BD5);
-        }
-
-        .button-3 {
-            background-color: #9eaf5a;
-            background-image: linear-gradient(to bottom right, #9eaf5a, #007464);
+            font-size: 16px; /* 设置按钮的字体大小 */
         }
 
         .button:hover {
-            transform: scale(1.1);
-            transition-duration: 0.3s;
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px var(--shadow-color);
         }
 
-
-        .button:hover {
-            transform: scale(1.1);
-            transition-duration: 0.3s;
+        .markdown-card {
+            margin-top: 20px;
         }
 
-        @media screen and (orientation: portrait) {
-            .container {
-                width: 95%;
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                align-items: stretch;
             }
 
-            .title {
-                font-size: 24px;
-            }
-
-            .description {
-                font-size: 16px;
-            }
-
-            .buttons {
+            .button-container {
                 flex-direction: column;
             }
 
             .button {
-                margin-top: 20px;
-                margin-bottom: 20px;
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
+    <script>
+        function setupDownloadButton() {
+            var downloadButton = document.querySelector('.button');
+
+            downloadButton.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+                // 我在这里藏了一个123盘链接
+                // checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
+                checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801');
+            });
+        }
+
+        function checkOSAndDownload(link) {
+            if (navigator.userAgent.indexOf("Windows NT 6.1") !== -1) {
+                var isContinue = confirm("您的操作系统可能无法运行此应用程序，仍然想要继续下载吗？");
+                if (isContinue) {
+                    window.open(link, '_blank');
+                }
+            } else {
+                window.open(link, '_blank');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', setupDownloadButton);
+    </script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="title-container">
-                <img src="./pluginlogo.webp" alt="图标" class="logo animate__animated animate__fadeInUp">
-                <h1 class="title animate__animated animate__fadeInUp">MIUI工具箱</h1>
+    <header>
+        <nav>
+            <div class="logo">Stardawn Software</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-software="hypertoolbox" data-color="#0078d4">
+                    <img src="picture/hypertoolbox.webp" alt="Hyper工具箱">
+                    Hyper工具箱
+                </a>
+                <a href="#" class="nav-link" data-software="pyqtscrcpy" data-color="#107c10">
+                    <img src="picture/pyqtscrcpy.webp" alt="PyQtScrcpy">
+                    PyQtScrcpy
+                </a>
+                <a href="#" class="nav-link" data-software="miuitoolbox" data-color="#fea242">
+                    <img src="picture/miuitoolbox.webp" alt="MIUI工具箱">
+                    MIUI工具箱
+                </a>
             </div>
-            <p class="description animate__animated animate__fadeInUp">
-                集一键ROOT、一键线刷、字库备份等功能为一体的<del>全能</del>工具箱<br>天玑设备暂时别用，等待无限重启问题修复</p>
-            <div class="buttons animate__animated animate__fadeInUp">
-                <button class="button button-1"
-                    onclick="window.open('https://www.123pan.com/s/a839-epVBv.html', '_blank')">工具下载</button>
-                <button class="button button-2"
-                    onclick="window.open('https://pd.qq.com/s/1k5rqroyo', '_blank')">加入频道</button>
-                <button class="button button-3"
-                    onclick="window.open('https://wiki.flashcorpa.top', '_blank')">软件文档</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card active" data-software="hypertoolbox">
+            <img class="software-logo" src="picture/hypertoolbox.webp" alt="Hyper工具箱">
+            <h2>Hyper工具箱</h2>
+            <p>可能是目前最快最强的小米、红米设备一键ROOT工具，获取ROOT权限无需完整下载ROM包<br>同时附带了数据备份、一键线刷等功能<br>仅支持Windows10及以上系统，不建议小白使用</p>
+            <div class="button-container">
+                <button onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')" class="button">工具下载</button>
+                <a href="https://space.bilibili.com/431414767" target="_blank" class="button">视频教程</a>
+                <a href="https://flashcorpa.cn" target="_blank" class="button">FlashCorpa文档</a>
             </div>
         </div>
-        <div class="card">
-            <p class="description animate__animated animate__fadeInUp">问题反馈请将邮件发送到</p>
-            <p class="description animate__animated animate__fadeInUp">feedback@xisentoolbox.cc</p>
-            <p class="description animate__animated animate__fadeInUp">请以“MIUI工具箱问题反馈”为题，否则邮件将被过滤</p>
-            <div class="description animate__animated animate__fadeInUp">会优先处理有效信息较多的反馈，故在反馈时请带上：<br>
-                1-电脑系统版本<br>
-                2-手机/平板的型号<br>
-                3-你在进行什么操作<br>
-                4-错误日志（程序目录下的log文件）</div>
+
+        <div class="card markdown-card active" data-software="hypertoolbox">
+            <p>问题反馈请将邮件发送到</p>
+            <p><a href="mailto:feedback@xisentoolbox.cc">feedback@xisentoolbox.cc</a></p>
+            <p>请以"Hyper工具箱问题反馈"为题，否则邮件将被过滤</p>
+            <p>会优先处理有效信息较多的反馈，故在反馈时请带上：</p>
+            <ol>
+                <li>电脑系统版本</li>
+                <li>手机/平板的型号</li>
+                <li>你正在进行什么操作</li>
+                <li>错误日志</li>
+                <li>如果存在崩溃、闪退等情况，告诉我工具崩溃前给你的最后一句文字提示或发送崩溃前一刻的截图</li>
+            </ol>
+
         </div>
-        <div class="card">
-            <p class="description animate__animated animate__fadeInUp">广告位招租</p>
+
+        <div class="card" data-software="pyqtscrcpy">
+            <img class="software-logo" src="picture/pyqtscrcpy.webp" alt="PyQtScrcpy">
+            <h2>PyQtScrcpy</h2>
+            <p>Android协同投屏神器，支持远程摄像头投屏，基于Scrcpy<br>仅支持Windows10及以上系统</p>
+            <div class="button-container">
+                <button onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')" class="button">工具下载</button>
+                <a href="https://github.com/Stardawn0v0/PyQtScrcpy" target="_blank" class="button">开源地址</a>
+            </div>
         </div>
-    </div>
+
+        <!-- <div class="card markdown-card" data-software="pyqtscrcpy">
+
+        </div> -->
+
+        <div class="card" data-software="miuitoolbox">
+            <img class="software-logo" src="picture/miuitoolbox.webp" alt="MIUI工具箱">
+            <h2>MIUI工具箱</h2>
+            <p>集一键ROOT、一键线刷、字库备份等功能为一体的<del>全能</del>工具箱<br>暂停更新 仅支持Windows10及以上系统</p>
+            <div class="button-container">
+                <button onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')" class="button">工具下载</button>
+                <a href="https://space.bilibili.com/431414767" target="_blank" class="button">视频教程</a>
+            </div>
+        </div>
+
+        <div class="card markdown-card" data-software="miuitoolbox">
+            <p>问题反馈请将邮件发送到</p>
+<p><a href="mailto:feedback@xisentoolbox.cc">feedback@xisentoolbox.cc</a></p>
+<p>请以"MIUI工具箱问题反馈"为题，否则邮件将被过滤</p>
+<p>会优先处理有效信息较多的反馈，故在反馈时请带上：</p>
+<ol>
+<li>电脑系统版本</li>
+<li>手机/平板的型号</li>
+<li>你正在进行什么操作</li>
+<li>错误日志</li>
+<li>如果存在崩溃、闪退等情况，告诉我工具崩溃前给你的最后一句文字提示或发送崩溃前一刻的截图</li>
+</ol>
+
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const software = e.currentTarget.dataset.software;
+                const color = e.currentTarget.dataset.color;
+                showSoftware(software, color);
+            });
+        });
+
+        function showSoftware(software, color) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.toggle('active', link.dataset.software === software);
+            });
+
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.classList.remove('active');
+                }, 300);
+            });
+
+            setTimeout(() => {
+                const selectedCards = document.querySelectorAll(`.card[data-software="${software}"]`);
+                selectedCards.forEach(card => {
+                    card.classList.add('active');
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                });
+            }, 300);
+
+            document.documentElement.style.setProperty('--primary-color', color);
+            document.documentElement.style.setProperty('--hover-color', adjustColor(color, -20));
+
+            document.querySelector('header').style.backgroundColor = color;
+
+            document.querySelectorAll('.button').forEach(button => {
+                button.style.backgroundColor = color;
+                button.style.color = isLightColor(color) ? '#323130' : '#ffffff';
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.style.color = isLightColor(color) ? '#323130' : '#ffffff';
+            });
+
+            document.querySelectorAll('.nav-link img').forEach(img => {
+                img.style.fill = isLightColor(color) ? '#323130' : '#ffffff';
+            });
+        }
+
+        function adjustColor(color, amount) {
+            return '#' + color.replace(/^#/, '').replace(/../g, color => ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
+        }
+
+        function isLightColor(color) {
+            const hex = color.replace('#', '');
+            const r = parseInt(hex.substr(0, 2), 16);
+            const g = parseInt(hex.substr(2, 2), 16);
+            const b = parseInt(hex.substr(4, 2), 16);
+            const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+            return yiq >= 128;
+        }
+    </script>
 </body>
 
 </html>
