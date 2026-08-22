@@ -36,7 +36,6 @@
             font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
             line-height: 1.6;
         }
-        body.modal-open { overflow: hidden; }
         img { max-width: 100%; display: block; }
         a { color: inherit; }
         button { font: inherit; }
@@ -172,41 +171,34 @@
         }
         .beta-trigger:hover { background: var(--surface); }
 
-        .qr-modal {
+        .qr-popover {
             position: fixed;
-            inset: 0;
+            left: 12px;
+            top: 12px;
             z-index: 100;
-            display: grid;
-            place-items: center;
-            padding: 24px;
-            background: rgba(21, 33, 42, 0.48);
+            width: min(320px, calc(100vw - 24px));
+            max-height: calc(100vh - 24px);
+            overflow: auto;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--white);
+            box-shadow: 0 18px 48px rgba(21, 33, 42, 0.24);
+            text-align: center;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.18s ease, visibility 0.18s ease;
+            transform: translateY(6px) scale(0.98);
+            transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
         }
-        .qr-modal.open {
+        .qr-popover.open {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+            transform: translateY(0) scale(1);
         }
-        .qr-dialog {
-            width: min(420px, calc(100vw - 32px));
-            max-height: calc(100vh - 48px);
-            overflow: auto;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 16px;
-            background: var(--white);
-            box-shadow: 0 24px 70px rgba(21, 33, 42, 0.3);
-            position: relative;
-            text-align: center;
-            transform: translateY(12px) scale(0.98);
-            transition: transform 0.2s ease;
-        }
-        .qr-modal.open .qr-dialog { transform: translateY(0) scale(1); }
-        .qr-dialog h3 { margin: 0 38px 4px; font-size: 22px; }
-        .qr-dialog .qr-subtitle { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+        .qr-popover h3 { margin: 0 34px 4px; font-size: 18px; }
+        .qr-popover .qr-subtitle { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
         .qr-image {
             width: min(100%, 320px);
             height: auto;
@@ -214,15 +206,15 @@
             border-radius: 8px;
             background: #fff;
         }
-        .qr-dialog .qr-note { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+        .qr-popover .qr-note { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
         .qr-load-error {
             display: none;
             margin: 24px 0;
             color: #a33838;
             font-size: 14px;
         }
-        .qr-dialog.image-error .qr-load-error { display: block; }
-        .qr-dialog.image-error .qr-image { display: none; }
+        .qr-popover.image-error .qr-load-error { display: block; }
+        .qr-popover.image-error .qr-image { display: none; }
         .qr-close {
             position: absolute;
             top: 12px;
@@ -371,7 +363,7 @@
                     <article class="status-item beta-card">
                         <h3>Android 测试版</h3>
                         <p>当前正在进行测试，暂不提供公开下载链接。</p>
-                        <button class="beta-trigger" type="button" aria-expanded="false" aria-controls="qr-modal">加入公测群</button>
+                        <button class="beta-trigger" type="button" aria-expanded="false" aria-controls="qr-popover">加入公测群</button>
                     </article>
                     <article class="status-item">
                         <h3>iPhone、iPad与Apple Watch</h3>
@@ -381,15 +373,10 @@
             </div>
         </section>
 
-        <div class="qr-modal" id="qr-modal" aria-hidden="true">
-            <div class="qr-dialog" role="dialog" aria-modal="true" aria-labelledby="qr-title">
-                <button class="qr-close" type="button" aria-label="关闭二维码">&times;</button>
-                <h3 id="qr-title">加入 AstroRail·星途公测群</h3>
+        <div class="qr-popover" id="qr-popover" role="dialog" aria-modal="false" aria-hidden="true" aria-labelledby="qr-title">
                 <p class="qr-subtitle">使用微信扫码加入</p>
-                <img class="qr-image" src="./picture/astrorail-beta-qr.png" alt="AstroRail·星途公测微信群二维码" loading="eager">
+                <img class="qr-image" src="picture/astrorail-beta-qr.png" alt="AstroRail·星途公测微信群二维码" loading="eager">
                 <p class="qr-load-error">二维码暂时无法加载，请刷新页面后重试。</p>
-                <p class="qr-note">二维码有效期至 8 月 29 日</p>
-            </div>
         </div>
 
         <section class="section alt" id="desktop-tools">
@@ -455,55 +442,90 @@
         });
 
         const betaTrigger = document.querySelector('.beta-trigger');
-        const qrModal = document.querySelector('#qr-modal');
-        const qrDialog = document.querySelector('.qr-dialog');
+        const qrPopover = document.querySelector('#qr-popover');
         const qrClose = document.querySelector('.qr-close');
         const qrImage = document.querySelector('.qr-image');
         const hoverMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
         let hoverCloseTimer;
+        let qrSourceIndex = 0;
+        const qrSources = [
+            'picture/astrorail-beta-qr.png',
+            'picture/astrorail-beta-qr.webp'
+        ];
 
-        function openQrModal() {
-            window.clearTimeout(hoverCloseTimer);
-            qrModal.classList.add('open');
-            qrModal.setAttribute('aria-hidden', 'false');
-            betaTrigger.setAttribute('aria-expanded', 'true');
-            document.body.classList.add('modal-open');
+        function positionQrPopover() {
+            const triggerRect = betaTrigger.getBoundingClientRect();
+            const gap = 10;
+            const edge = 12;
+            const popoverRect = qrPopover.getBoundingClientRect();
+            let left = triggerRect.left;
+            let top = triggerRect.bottom + gap;
+
+            if (left + popoverRect.width > window.innerWidth - edge) {
+                left = window.innerWidth - edge - popoverRect.width;
+            }
+            if (left < edge) left = edge;
+            if (top + popoverRect.height > window.innerHeight - edge) {
+                top = triggerRect.top - gap - popoverRect.height;
+            }
+            if (top < edge) top = edge;
+
+            qrPopover.style.left = `${Math.round(left)}px`;
+            qrPopover.style.top = `${Math.round(top)}px`;
         }
 
-        function closeQrModal() {
+        function openQrPopover() {
             window.clearTimeout(hoverCloseTimer);
-            qrModal.classList.remove('open');
-            qrModal.setAttribute('aria-hidden', 'true');
+            qrPopover.classList.add('open');
+            qrPopover.setAttribute('aria-hidden', 'false');
+            betaTrigger.setAttribute('aria-expanded', 'true');
+            window.requestAnimationFrame(positionQrPopover);
+        }
+
+        function closeQrPopover() {
+            window.clearTimeout(hoverCloseTimer);
+            qrPopover.classList.remove('open');
+            qrPopover.setAttribute('aria-hidden', 'true');
             betaTrigger.setAttribute('aria-expanded', 'false');
-            document.body.classList.remove('modal-open');
         }
 
         function scheduleHoverClose() {
             window.clearTimeout(hoverCloseTimer);
-            hoverCloseTimer = window.setTimeout(closeQrModal, 260);
+            hoverCloseTimer = window.setTimeout(closeQrPopover, 260);
         }
 
         betaTrigger.addEventListener('click', (event) => {
             event.stopPropagation();
-            if (qrModal.classList.contains('open')) closeQrModal();
-            else openQrModal();
+            if (qrPopover.classList.contains('open')) closeQrPopover();
+            else openQrPopover();
         });
 
         if (hoverMedia.matches) {
-            betaTrigger.addEventListener('mouseenter', openQrModal);
+            betaTrigger.addEventListener('mouseenter', openQrPopover);
             betaTrigger.addEventListener('mouseleave', scheduleHoverClose);
-            qrDialog.addEventListener('mouseenter', () => window.clearTimeout(hoverCloseTimer));
-            qrDialog.addEventListener('mouseleave', scheduleHoverClose);
+            qrPopover.addEventListener('mouseenter', () => window.clearTimeout(hoverCloseTimer));
+            qrPopover.addEventListener('mouseleave', scheduleHoverClose);
         }
 
-        qrClose.addEventListener('click', closeQrModal);
-        qrModal.addEventListener('click', (event) => {
-            if (event.target === qrModal) closeQrModal();
-        });
+        qrClose.addEventListener('click', closeQrPopover);
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && qrModal.classList.contains('open')) closeQrModal();
+            if (event.key === 'Escape' && qrPopover.classList.contains('open')) closeQrPopover();
         });
-        qrImage.addEventListener('error', () => qrDialog.classList.add('image-error'));
+        document.addEventListener('click', (event) => {
+            if (!qrPopover.contains(event.target) && event.target !== betaTrigger) closeQrPopover();
+        });
+        window.addEventListener('resize', () => {
+            if (qrPopover.classList.contains('open')) positionQrPopover();
+        });
+        qrImage.addEventListener('load', () => qrPopover.classList.remove('image-error'));
+        qrImage.addEventListener('error', () => {
+            if (qrSourceIndex < qrSources.length - 1) {
+                qrSourceIndex += 1;
+                qrImage.src = qrSources[qrSourceIndex];
+            } else {
+                qrPopover.classList.add('image-error');
+            }
+        });
     </script>
 </body>
 </html>
