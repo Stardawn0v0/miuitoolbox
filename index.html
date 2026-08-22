@@ -170,29 +170,37 @@
         .beta-trigger::after { content: " +"; }
         .beta-card.open .beta-trigger::after { content: " −"; }
         .beta-qr {
-            position: absolute;
-            left: 0;
-            bottom: calc(100% - 18px);
-            z-index: 10;
             width: 250px;
-            padding: 12px;
+            max-height: 0;
+            margin-top: 0;
+            padding: 0 12px;
+            overflow: hidden;
             border: 1px solid var(--line);
             border-radius: 8px;
             background: var(--white);
-            box-shadow: 0 18px 48px rgba(21, 33, 42, 0.18);
+            box-shadow: 0 12px 32px rgba(21, 33, 42, 0.12);
             opacity: 0;
             visibility: hidden;
-            transform: translateY(8px);
-            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+            transition: max-height 0.24s ease, margin-top 0.24s ease, padding 0.24s ease, opacity 0.18s ease, visibility 0.18s;
         }
         .beta-qr img { width: 100%; height: auto; }
         .beta-qr p { margin: 8px 4px 2px; text-align: center; font-size: 12px; }
-        .beta-card:hover .beta-qr,
         .beta-card:focus-within .beta-qr,
         .beta-card.open .beta-qr {
+            max-height: 330px;
+            margin-top: 14px;
+            padding: 12px;
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .beta-card:hover .beta-qr {
+                max-height: 330px;
+                margin-top: 14px;
+                padding: 12px;
+                opacity: 1;
+                visibility: visible;
+            }
         }
 
         .tools-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
@@ -264,10 +272,7 @@
             .section-heading h2 { margin-bottom: 12px; font-size: 28px; }
             .status-list, .tools-grid { grid-template-columns: 1fr; }
             .status-item:nth-child(odd), .status-item:nth-child(even) { padding: 22px 0; border-left: 0; }
-            .beta-qr { left: 50%; bottom: calc(100% - 12px); transform: translate(-50%, 8px); }
-            .beta-card:hover .beta-qr,
-            .beta-card:focus-within .beta-qr,
-            .beta-card.open .beta-qr { transform: translate(-50%, 0); }
+            .beta-qr { width: min(250px, 100%); }
             .tool-card { min-height: 310px; }
             .footer-inner { display: block; }
             .footer-inner p + p { margin-top: 8px; }
