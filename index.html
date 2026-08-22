@@ -158,8 +158,8 @@
         .status-item:nth-child(even) { padding-left: 32px; border-left: 1px solid var(--line); }
         .status-item h3 { margin: 0 0 6px; font-size: 20px; }
         .status-item p { margin: 0; color: var(--muted); }
+        .status-actions { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 9px; }
         .beta-trigger {
-            margin-top: 16px;
             min-height: 40px;
             padding: 8px 14px;
             border: 1px solid var(--astro-dark);
@@ -342,11 +342,11 @@
             <img class="app-icon" src="picture/astrorail.webp" alt="AstroRail·星途图标">
             <p class="eyebrow">Developed by StardawnTech.</p>
             <h1>AstroRail·星途</h1>
-            <p class="lead">非常好用的一站式铁路信息查询App，目前正在测试中。</p>
+            <p class="lead">非常好用的一站式铁路信息查询App，Android 测试版现已开放下载。</p>
             <div class="platforms" aria-label="发布状态">
                 <div class="platform-status testing">
                     <span class="platform-name">Android</span>
-                    <span class="platform-note">测试进行中</span>
+                    <span class="platform-note">开放下载</span>
                 </div>
                 <div class="platform-status">
                     <span class="platform-name">iOS</span>
@@ -365,13 +365,16 @@
             <div class="section-inner">
                 <div class="section-heading">
                     <h2>发布进度</h2>
-                    <p>测试中</p>
+                    <p>Android 测试版现已开放下载</p>
                 </div>
                 <div class="status-list">
                     <article class="status-item beta-card">
                         <h3>Android 测试版</h3>
-                        <p>当前正在进行测试，暂不提供公开下载链接。</p>
-                        <button class="beta-trigger" type="button" aria-expanded="false" aria-controls="qr-popover">加入公测群</button>
+                        <p>当前正在进行公开测试，欢迎下载体验。</p>
+                        <div class="status-actions">
+                            <button class="button" data-download="https://pan.quark.cn/s/d7a17b2ae801">立即下载</button>
+                            <button class="beta-trigger" type="button" aria-expanded="false" aria-controls="qr-popover">加入公测群</button>
+                        </div>
                     </article>
                     <article class="status-item">
                         <h3>iPhone、iPad与Apple Watch</h3>
