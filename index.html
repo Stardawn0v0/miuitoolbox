@@ -1,550 +1,365 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="StardawnTech.">
+    <title>StardawnTech.</title>
+    <link rel="icon" href="picture/astrorail.webp" type="image/webp">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHCXTBPFW"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6612998629482048"
-        crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-6612998629482048" crossorigin="anonymous"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-WFHCXTBPFW');
     </script>
-    
-    <title>Hyper工具箱 - StardawnSoftware</title>
-    <link rel="icon" href="picture/hypertoolbox.webp" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
-
     <style>
         :root {
-            --primary-color: #0078d4;
-            --bg-color: #f3f6fc;
-            --card-bg: #ffffff;
-            --text-main: #212121;
-            --text-muted: #616161;
-            --border-color: #e5e5e5;
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-            --nav-bg: rgba(255, 255, 255, 0.6);
-            --transition-spring: cubic-bezier(0.25, 0.8, 0.25, 1);
+            --ink: #15212a;
+            --muted: #62717b;
+            --line: #dbe3e7;
+            --surface: #f4f7f8;
+            --white: #ffffff;
+            --astro-dark: #466c7c;
+            --green: #247a52;
+            --amber: #a15c08;
+            --max-width: 1120px;
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            scrollbar-gutter: stable;
-        }
-
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-            transition: background-color 0.4s ease;
+            color: var(--ink);
+            background: var(--white);
+            font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
         }
+        img { max-width: 100%; display: block; }
+        a { color: inherit; }
+        button { font: inherit; }
 
-        .ambient-light {
-            position: fixed;
-            top: -30%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120vw;
-            height: 80vh;
-            background: radial-gradient(circle at center, var(--primary-color) 0%, transparent 60%);
-            opacity: 0.08;
-            z-index: -1;
-            transition: background 0.5s ease;
-            pointer-events: none;
-            filter: blur(80px);
-        }
-
-        header {
-            padding: 16px 0;
+        .site-header {
             position: sticky;
             top: 0;
-            z-index: 100;
-            background: rgba(243, 246, 252, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid rgba(0,0,0,0.03);
+            z-index: 20;
+            border-bottom: 1px solid rgba(219, 227, 231, 0.85);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
         }
-
-        nav {
-            max-width: 1000px;
+        .nav {
+            max-width: var(--max-width);
+            min-height: 64px;
             margin: 0 auto;
             padding: 0 24px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            gap: 20px;
+            gap: 32px;
         }
-
-        .logo {
+        .brand {
+            color: var(--ink);
+            text-decoration: none;
             font-size: 20px;
-            color: var(--text-main);
+            font-weight: 750;
+        }
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
+        .nav-links a:hover { color: var(--ink); }
+
+        .hero {
+            min-height: calc(100svh - 64px);
+            padding: 72px 24px 0;
             display: flex;
-            align-items: baseline;
-            gap: 4px;
-            cursor: default;
-            user-select: none;
-            flex-shrink: 0;
-        }
-
-        .logo-main { font-weight: 700; letter-spacing: -0.3px; }
-        .logo-sub { font-weight: 400; color: var(--text-muted); font-size: 0.9em; }
-
-        .nav-links-container {
-            background-color: var(--nav-bg);
-            padding: 4px;
-            border-radius: 50px;
-            display: inline-flex; 
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.5);
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+            flex-direction: column;
             align-items: center;
-        }
-
-        .nav-background {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 0;
-            width: 0;
-            background-color: #ffffff;
-            border-radius: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-            transition: transform 0.4s var(--transition-spring), width 0.4s var(--transition-spring), height 0.4s var(--transition-spring);
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-muted);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            position: relative;
-            white-space: nowrap;
-            z-index: 2;
-            background: transparent;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
-
-        .nav-link:hover { color: var(--text-main); }
-        .nav-link.active { color: var(--primary-color); font-weight: 600; }
-
-        .nav-link img {
-            width: 18px;
-            height: 18px;
-            border-radius: 4px;
-            filter: grayscale(100%);
-            opacity: 0.6;
-            transition: all 0.3s;
-            display: block; 
-        }
-
-        .nav-link.active img, .nav-link:hover img {
-            filter: grayscale(0%);
-            opacity: 1;
-        }
-
-        main {
-            width: 100%;
-            max-width: 860px;
-            margin: 40px auto;
-            padding: 0 24px;
-            min-height: calc(100vh - 150px);
-        }
-
-        .product-content-container { position: relative; }
-
-        .content-wrapper { 
-            display: none; 
-            animation: slideUpFade 0.4s cubic-bezier(0.2, 0, 0.2, 1) forwards; 
-        }
-        
-        .content-wrapper.active { display: block; }
-
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-card {
-            text-align: center;
-            padding: 60px 30px 50px;
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 32px;
-            border: 1px solid rgba(255,255,255,0.8);
-            position: relative;
             overflow: hidden;
+            background: var(--surface);
+            text-align: center;
         }
-
-        .hero-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+        .app-icon {
+            width: 112px;
+            height: 112px;
+            border-radius: 25%;
+            box-shadow: 0 18px 44px rgba(70, 108, 124, 0.24);
         }
-
-        .hero-logo {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 24px;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1)); 
+        .eyebrow {
+            margin: 24px 0 8px;
+            color: var(--astro-dark);
+            font-size: 14px;
+            font-weight: 700;
         }
-
-        h1 { font-size: 40px; font-weight: 700; margin: 0 0 16px; color: var(--text-main); letter-spacing: -0.5px; }
-        .hero-desc { font-size: 16px; color: var(--text-muted); max-width: 580px; margin: 0 auto 40px; line-height: 1.7; }
-
-        .button-container { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
-        
-        .button {
-            padding: 12px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
+        h1 {
+            margin: 0;
+            font-size: clamp(44px, 8vw, 80px);
+            line-height: 1.08;
+            letter-spacing: 0;
+        }
+        .lead {
+            max-width: 660px;
+            margin: 22px auto 28px;
+            color: var(--muted);
+            font-size: 18px;
+        }
+        .platforms { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .platform-status {
+            min-width: 150px;
+            padding: 10px 16px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: var(--white);
+            text-align: left;
+        }
+        .platform-name { display: block; font-size: 14px; font-weight: 700; }
+        .platform-note { display: block; margin-top: 1px; color: var(--muted); font-size: 12px; }
+        .platform-status.testing { border-color: #b9ddca; }
+        .platform-status.testing .platform-note { color: var(--green); }
+        .hero-preview {
+            width: min(980px, 94vw);
+            height: 540px;
+            margin-top: auto;
+            padding-top: 34px;
+            display: flex;
             justify-content: center;
-            gap: 8px;
-            user-select: none;
+            align-items: flex-start;
+            gap: 16px;
+            overflow: visible;
         }
+        .app-screenshot {
+            width: 204px;
+            height: auto;
+            flex: 0 0 auto;
+            border: 7px solid #23333d;
+            border-radius: 30px;
+            box-shadow: 0 24px 50px rgba(21, 33, 42, 0.18);
+        }
+        .app-screenshot:nth-child(even) { transform: translateY(22px); }
 
-        .btn-primary { 
-            background-color: var(--primary-color); 
-            color: white; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+        .section { padding: 92px 24px; }
+        .section.alt { background: var(--surface); }
+        .section-inner { max-width: var(--max-width); margin: 0 auto; }
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 32px;
+            margin-bottom: 36px;
         }
-        .btn-primary:hover { 
-            filter: brightness(1.05); 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); 
+        .section-heading h2 { margin: 0; font-size: 34px; line-height: 1.2; }
+        .section-heading p { max-width: 520px; margin: 0; color: var(--muted); }
+        .status-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            border-top: 1px solid var(--line);
         }
-        .btn-primary:active { transform: translateY(0); }
+        .status-item { padding: 28px 0; border-bottom: 1px solid var(--line); }
+        .status-item:nth-child(odd) { padding-right: 32px; }
+        .status-item:nth-child(even) { padding-left: 32px; border-left: 1px solid var(--line); }
+        .status-item h3 { margin: 0 0 6px; font-size: 20px; }
+        .status-item p { margin: 0; color: var(--muted); }
 
-        .btn-secondary { 
-            background-color: rgba(255,255,255,0.5); 
-            color: var(--text-main); 
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(4px);
+        .tools-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+        .tool-card {
+            min-height: 360px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--white);
         }
-        .btn-secondary:hover { 
-            background-color: rgba(255,255,255,0.9); 
-            border-color: #ccc;
+        .tool-icon { width: 64px; height: 64px; border-radius: 14px; }
+        .tool-card h3 { margin: 22px 0 8px; font-size: 22px; }
+        .tool-card p { margin: 0; color: var(--muted); font-size: 14px; }
+        .tool-card .tool-meta { margin: 10px 0 24px; color: var(--amber); font-size: 12px; font-weight: 700; }
+        .tool-actions { margin-top: auto; display: flex; flex-wrap: wrap; gap: 9px; }
+        .button {
+            min-height: 42px;
+            padding: 9px 16px;
+            border: 1px solid var(--ink);
+            border-radius: 6px;
+            background: var(--ink);
+            color: var(--white);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
         }
-        
-        .button svg { width: 18px; height: 18px; fill: currentColor; display: block; }
+        .button:hover { background: #2d3c45; }
+        .button.secondary { border-color: var(--line); background: var(--white); color: var(--ink); }
+        .button.secondary:hover { background: var(--surface); }
 
-        .info-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: var(--shadow-sm);
+        .site-footer { padding: 34px 24px; border-top: 1px solid var(--line); }
+        .footer-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+            color: var(--muted);
+            font-size: 13px;
         }
-        .info-card h3 { margin: 0 0 20px; font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-        .info-card h3::before { content: ''; display: block; width: 4px; height: 18px; background: var(--primary-color); border-radius: 2px; }
-        
-        .feedback-content { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
-        .feedback-content p { margin: 0 0 12px; }
-        .feedback-content a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
-        .feedback-content a:hover { text-decoration: underline; }
-        .feedback-content ol { background: #f9fafb; padding: 20px 20px 20px 40px; border-radius: 8px; border: 1px solid #eee; margin-top: 16px; }
-        .feedback-content li { margin-bottom: 6px; }
+        .footer-inner p { margin: 0; }
+        .footer-inner a { color: var(--astro-dark); text-decoration: none; }
 
-        @media (max-width: 768px) {
-            header { padding: 12px 0; }
-            nav { flex-direction: column; gap: 16px; padding: 0 16px; }
-            
-            .nav-links-container {
-                width: 100%;
-                overflow-x: auto;
-                white-space: nowrap;
-                display: flex;
+        @media (max-width: 800px) {
+            .nav { padding: 0 18px; gap: 16px; }
+            .nav-links { gap: 16px; }
+            .nav-links a:last-child { display: none; }
+            .hero { padding: 52px 18px 0; }
+            .app-icon { width: 92px; height: 92px; }
+            .lead { font-size: 16px; }
+            .hero-preview {
+                width: calc(100vw - 18px);
+                height: 390px;
+                padding: 26px 18px 22px;
                 justify-content: flex-start;
-                padding: 4px;
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-                mask-image: linear-gradient(to right, black 95%, transparent 100%);
-                -webkit-mask-image: linear-gradient(to right, black 95%, transparent 100%);
-            }
-            .nav-links-container::-webkit-scrollbar { display: none; }
-            
-            .nav-link { padding: 8px 16px; flex-shrink: 0; }
-            
-            main { margin: 24px auto; padding: 0 16px; }
-
-            .hero-card { padding: 40px 20px; }
-            h1 { font-size: 28px; }
-            .hero-desc { font-size: 14px; margin-bottom: 30px; }
-            
-            .button-container {
-                flex-direction: column;
                 gap: 12px;
-                width: 100%;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
             }
-            
-            .button {
-                width: 100%;
-                justify-content: center;
-                padding: 14px;
-            }
-
-            .info-card { padding: 24px; }
+            .hero-preview::-webkit-scrollbar { display: none; }
+            .app-screenshot { width: 150px; border-width: 6px; border-radius: 25px; scroll-snap-align: center; }
+            .section { padding: 64px 18px; }
+            .section-heading { display: block; }
+            .section-heading h2 { margin-bottom: 12px; font-size: 28px; }
+            .status-list, .tools-grid { grid-template-columns: 1fr; }
+            .status-item:nth-child(odd), .status-item:nth-child(even) { padding: 22px 0; border-left: 0; }
+            .tool-card { min-height: 310px; }
+            .footer-inner { display: block; }
+            .footer-inner p + p { margin-top: 8px; }
+        }
+        @media (max-width: 480px) {
+            .brand { font-size: 17px; }
+            .nav-links { gap: 13px; }
+            .nav-links a { font-size: 12px; }
+            .nav-links a:first-child { display: none; }
+            h1 { font-size: 43px; }
+            .platform-status { min-width: 0; flex: 1 1 140px; }
+            .app-screenshot { width: 142px; }
         }
     </style>
-
-    <script>
-        function setupDownloadButton() {
-            var downloadButtons = document.querySelectorAll('.btn-download-trigger');
-            downloadButtons.forEach(btn => {
-                btn.addEventListener('contextmenu', function (event) {
-                    event.preventDefault();
-                    checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
-                });
-            });
-        }
-
-        function checkOSAndDownload(link) {
-            if (navigator.userAgent.indexOf("Windows NT 6.1") !== -1) {
-                var isContinue = confirm("您的操作系统可能无法运行此应用程序，仍然想要继续下载吗？");
-                if (isContinue) window.open(link, '_blank');
-            } else {
-                window.open(link, '_blank');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', setupDownloadButton);
-    </script>
 </head>
-
 <body>
-    <div class="ambient-light"></div>
-
-    <header>
-        <nav>
-            <div class="logo">
-                <span class="logo-main">Stardawn</span>
-                <span class="logo-sub">Software</span>
-            </div>
-            <div class="nav-links-container">
-                <div class="nav-background"></div>
-
-                <a href="#" class="nav-link active" data-software="hypertoolbox" data-color="#0078d4">
-                    <img src="picture/hypertoolbox.webp" alt="Icon">
-                    <span>Hyper工具箱</span>
-                </a>
-                <a href="#" class="nav-link" data-software="pyqtscrcpy" data-color="#107c10">
-                    <img src="picture/pyqtscrcpy.webp" alt="Icon">
-                    <span>PyQtScrcpy</span>
-                </a>
-                <a href="#" class="nav-link" data-software="miuitoolbox" data-color="#fea242">
-                    <img src="picture/miuitoolbox.webp" alt="Icon">
-                    <span>MIUI工具箱</span>
-                </a>
+    <header class="site-header">
+        <nav class="nav" aria-label="主导航">
+            <a class="brand" href="#top">StardawnTech.</a>
+            <div class="nav-links">
+                <a href="#astrorail">AstroRail·星途</a>
+                <a href="#hypertoolbox">Hyper工具箱</a>
+                <a href="#desktop-tools">玩机工具</a>
+                <a href="mailto:feedback@stardawn.cc">联系我们</a>
             </div>
         </nav>
     </header>
 
-    <main>
-        <div class="product-content-container">
-            <div class="content-wrapper active" id="hypertoolbox">
-                <div class="hero-card">
-                    <img class="hero-logo" src="picture/hypertoolbox.webp" alt="Hyper工具箱">
-                    <h1>Hyper工具箱</h1>
-                    <p class="hero-desc">
-                        可能是目前最快最强的小米、红米设备一键 ROOT 工具。<br>
-                        无需完整下载 ROM 包即可获取权限，集成数据备份与一键线刷功能。
-                    </p>
-                    <div class="button-container">
-                        <button onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')" class="button btn-primary btn-download-trigger">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                            立即下载
-                        </button>
-                        <button onclick="window.open('https://space.bilibili.com/431414767', '_blank')" class="button btn-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                            视频教程
-                        </button>
-                    </div>
+    <main id="top">
+        <section class="hero" id="astrorail">
+            <img class="app-icon" src="picture/astrorail.webp" alt="AstroRail·星途图标">
+            <p class="eyebrow">Developed by StardawnTech.</p>
+            <h1>AstroRail·星途</h1>
+            <p class="lead">非常好用的一站式铁路信息查询App，目前正在测试中。</p>
+            <div class="platforms" aria-label="发布状态">
+                <div class="platform-status testing">
+                    <span class="platform-name">Android</span>
+                    <span class="platform-note">测试进行中</span>
                 </div>
-                
-                <div class="info-card">
-                    <h3>注意事项与反馈</h3>
-                    <div class="feedback-content">
-                        <p>⚠️ 仅支持 Windows 10 及以上系统，不建议零基础用户使用。</p>
-                        <p>如遇问题，请发送邮件至 <a href="mailto:feedback@stardawn.cc">feedback@stardawn.cc</a></p>
-                        <ol>
-                            <li>电脑系统版本 (如 Win11 22H2)</li>
-                            <li>手机/平板的具体型号</li>
-                            <li>当前正在进行的操作步骤与错误日志</li>
-                        </ol>
-                    </div>
+                <div class="platform-status">
+                    <span class="platform-name">iOS</span>
+                    <span class="platform-note">筹备中</span>
                 </div>
             </div>
+            <div class="hero-preview" aria-label="AstroRail·星途截图">
+                <img class="app-screenshot" src="picture/astrorail-search.webp" alt="查询">
+                <img class="app-screenshot" src="picture/astrorail-trips.webp" alt="行程">
+                <img class="app-screenshot" src="picture/astrorail-map.webp" alt="地图">
+                <img class="app-screenshot" src="picture/astrorail-profile.webp" alt="我的">
+            </div>
+        </section>
 
-            <div class="content-wrapper" id="pyqtscrcpy">
-                <div class="hero-card">
-                    <img class="hero-logo" src="picture/pyqtscrcpy.webp" alt="PyQtScrcpy">
-                    <h1>PyQtScrcpy</h1>
-                    <p class="hero-desc">
-                        Android 协同投屏神器，基于 Scrcpy 开发。<br>
-                        极低延迟，支持远程摄像头投屏，生产力工具的首选。
-                    </p>
-                    <div class="button-container">
-                        <button onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')" class="button btn-primary btn-download-trigger">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                            立即下载
-                        </button>
-                        <button onclick="window.open('https://github.com/Stardawn0v0/PyQtScrcpy', '_blank')" class="button btn-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.411 2.866 8.167 6.839 9.504.5.09.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.341-3.369-1.341-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.004.07 1.532 1.03 1.532 1.03.89 1.529 2.336 1.087 2.903.832.091-.645.35-1.087.636-1.339-2.22-.252-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.104-.252-.448-1.27-.098-2.65 0 0 .84-.27 2.75 1.026.799-.223 1.647-.335 2.5-.339 1.066.004 1.914.116 2.711.339 1.909-1.296 2.747-1.026 2.747-1.026.353 1.38.009 2.398-.095 2.65.64.698 1.03 1.591 1.03 2.682 0 3.84-2.339 4.686-4.562 4.935.359.309.678.919.678 1.854 0 1.339-.012 2.418-.012 2.743 0 .267.18.577.688.481C20.14 20.165 23 16.41 23 12c0-5.523-4.477-10-10-10z"/></svg>
-                            GitHub 源码
-                        </button>
-                    </div>
+        <section class="section">
+            <div class="section-inner">
+                <div class="section-heading">
+                    <h2>发布进度</h2>
+                    <p>测试中</p>
                 </div>
-
-                <div class="info-card">
-                    <h3>项目说明</h3>
-                    <div class="feedback-content">
-                        <p>本项目完全开源，仅支持 Windows 10 及以上系统。</p>
-                        <p>如果您是开发者，欢迎提交 Pull Request 或 Issue。</p>
-                    </div>
+                <div class="status-list">
+                    <article class="status-item">
+                        <h3>Android 测试版</h3>
+                        <p>当前正在进行测试，暂不提供公开下载链接。</p>
+                    </article>
+                    <article class="status-item">
+                        <h3>iPhone、iPad与Apple Watch</h3>
+                        <p>正在凑钱交688块的Apple Developer会费。</p>
+                    </article>
                 </div>
             </div>
+        </section>
 
-            <div class="content-wrapper" id="miuitoolbox">
-                <div class="hero-card">
-                    <img class="hero-logo" src="picture/miuitoolbox.webp" alt="MIUI工具箱" style="filter: grayscale(0.6);">
-                    <h1>MIUI工具箱</h1>
-                    <p class="hero-desc">
-                        集一键 ROOT、线刷、字库备份为一体的经典工具箱。<br>
-                        <span style="color: #d97706; background: rgba(245, 158, 11, 0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.9em; font-weight: 600;">已暂停更新</span>
-                    </p>
-                    <div class="button-container">
-                        <button onclick="checkOSAndDownload('https://pan.quark.cn/s/d7a17b2ae801')" class="button btn-primary btn-download-trigger">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                            获取旧版
-                        </button>
-                        <button onclick="window.open('https://space.bilibili.com/431414767', '_blank')" class="button btn-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                            视频教程
-                        </button>
-                    </div>
+        <section class="section alt" id="desktop-tools">
+            <div class="section-inner">
+                <div class="section-heading">
+                    <h2>玩机工具</h2>
+                    <p>Windows平台，为Android设备设计的玩机应用。</p>
                 </div>
-
-                <div class="info-card">
-                    <h3>支持与反馈</h3>
-                    <div class="feedback-content">
-                        <p>反馈邮箱: <a href="mailto:feedback@stardawn.cc">feedback@stardawn.cc</a></p>
-                        <ol>
-                            <li>电脑系统版本</li>
-                            <li>手机/平板的型号</li>
-                            <li>错误日志与截图</li>
-                        </ol>
-                    </div>
+                <div class="tools-grid">
+                    <article class="tool-card" id="hypertoolbox">
+                        <img class="tool-icon" src="picture/hypertoolbox.webp" alt="Hyper工具箱图标">
+                        <h3>Hyper工具箱</h3>
+                        <p>面向小米与红米设备的一键 ROOT、数据备份及线刷工具。</p>
+                        <div class="tool-actions">
+                            <button class="button" data-download="https://pan.quark.cn/s/d7a17b2ae801">立即下载</button>
+                            <a class="button secondary" href="https://space.bilibili.com/431414767" target="_blank" rel="noopener">视频教程</a>
+                        </div>
+                    </article>
+                    <article class="tool-card">
+                        <img class="tool-icon" src="picture/pyqtscrcpy.webp" alt="PyQtScrcpy图标">
+                        <h3>PyQtScrcpy</h3>
+                        <p>基于 Scrcpy 开发的 Android 协同投屏工具，支持低延迟与远程摄像头投屏。</p>
+                        <div class="tool-actions">
+                            <button class="button" data-download="https://pan.quark.cn/s/d7a17b2ae801">立即下载</button>
+                            <a class="button secondary" href="https://github.com/Stardawn0v0/PyQtScrcpy" target="_blank" rel="noopener">GitHub</a>
+                        </div>
+                    </article>
+                    <article class="tool-card">
+                        <img class="tool-icon" src="picture/miuitoolbox.webp" alt="MIUI工具箱图标">
+                        <h3>MIUI工具箱</h3>
+                        <p>集一键 ROOT、线刷与字库备份于一体的经典工具箱。</p>
+                        <span class="tool-meta">已暂停更新</span>
+                        <div class="tool-actions">
+                            <button class="button" data-download="https://pan.quark.cn/s/d7a17b2ae801">获取旧版</button>
+                            <a class="button secondary" href="https://space.bilibili.com/431414767" target="_blank" rel="noopener">视频教程</a>
+                        </div>
+                    </article>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p>© 2026 StardawnTech.</p>
+            <p>问题反馈：<a href="mailto:feedback@stardawn.cc">feedback@stardawn.cc</a></p>
+        </div>
+    </footer>
+
     <script>
-        const navLinks = document.querySelectorAll('.nav-link');
-        const contents = document.querySelectorAll('.content-wrapper');
-        const root = document.documentElement;
-        const navBackground = document.querySelector('.nav-background');
-        const navContainer = document.querySelector('.nav-links-container');
-
-        function updateNavBackground(activeLink) {
-            if (!activeLink) return;
-            
-            const containerRect = navContainer.getBoundingClientRect();
-            const linkRect = activeLink.getBoundingClientRect();
-
-            const relativeLeft = linkRect.left - containerRect.left - navContainer.clientLeft;
-            const relativeTop = linkRect.top - containerRect.top - navContainer.clientTop;
-
-            navBackground.style.width = `${linkRect.width}px`;
-            navBackground.style.height = `${linkRect.height}px`;
-            navBackground.style.transform = `translate(${relativeLeft}px, ${relativeTop}px)`;
-            navBackground.style.opacity = '1';
+        function checkOSAndDownload(link) {
+            const isWindows7 = navigator.userAgent.includes('Windows NT 6.1');
+            if (!isWindows7 || window.confirm('您的操作系统可能无法运行此应用程序，仍然继续下载吗？')) {
+                window.open(link, '_blank', 'noopener');
+            }
         }
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                const targetId = link.dataset.software;
-                const color = link.dataset.color;
-
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-
-                updateNavBackground(link);
-
-                root.style.setProperty('--primary-color', color);
-
-                contents.forEach(content => {
-                    if (content.id === targetId) {
-                        content.classList.add('active');
-                    } else {
-                        content.classList.remove('active');
-                    }
-                });
-
-                document.title = link.querySelector('span').textContent + " - StardawnSoftware";
-                const iconSrc = link.querySelector('img').src;
-                let linkIcon = document.querySelector('link[rel="icon"]');
-                if (!linkIcon) {
-                    linkIcon = document.createElement('link');
-                    linkIcon.rel = 'icon';
-                    document.head.appendChild(linkIcon);
-                }
-                linkIcon.href = iconSrc;
+        document.querySelectorAll('[data-download]').forEach((button) => {
+            button.addEventListener('click', () => checkOSAndDownload(button.dataset.download));
+            button.addEventListener('contextmenu', (event) => {
+                event.preventDefault();
+                checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
             });
         });
-
-        function init() {
-            const activeLink = document.querySelector('.nav-link.active');
-            setTimeout(() => updateNavBackground(activeLink), 100);
-        }
-
-        window.addEventListener('load', init);
-        
-        const resizeObserver = new ResizeObserver(() => {
-            const activeLink = document.querySelector('.nav-link.active');
-            updateNavBackground(activeLink);
-        });
-        resizeObserver.observe(navContainer);
-
     </script>
 </body>
 </html>
