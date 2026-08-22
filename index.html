@@ -36,6 +36,7 @@
             font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
             line-height: 1.6;
         }
+        body.modal-open { overflow: hidden; }
         img { max-width: 100%; display: block; }
         a { color: inherit; }
         button { font: inherit; }
@@ -160,48 +161,84 @@
         .status-item p { margin: 0; color: var(--muted); }
         .beta-trigger {
             margin-top: 16px;
-            padding: 0;
-            border: 0;
-            background: transparent;
+            min-height: 40px;
+            padding: 8px 14px;
+            border: 1px solid var(--astro-dark);
+            border-radius: 6px;
+            background: var(--white);
             color: var(--astro-dark);
             cursor: pointer;
             font-weight: 700;
         }
-        .beta-trigger::after { content: " +"; }
-        .beta-card.open .beta-trigger::after { content: " −"; }
-        .beta-qr {
-            width: 250px;
-            max-height: 0;
-            margin-top: 0;
-            padding: 0 12px;
-            overflow: hidden;
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            background: var(--white);
-            box-shadow: 0 12px 32px rgba(21, 33, 42, 0.12);
+        .beta-trigger:hover { background: var(--surface); }
+
+        .qr-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(21, 33, 42, 0.48);
             opacity: 0;
             visibility: hidden;
-            transition: max-height 0.24s ease, margin-top 0.24s ease, padding 0.24s ease, opacity 0.18s ease, visibility 0.18s;
+            pointer-events: none;
+            transition: opacity 0.18s ease, visibility 0.18s ease;
         }
-        .beta-qr img { width: 100%; height: auto; }
-        .beta-qr p { margin: 8px 4px 2px; text-align: center; font-size: 12px; }
-        .beta-card:focus-within .beta-qr,
-        .beta-card.open .beta-qr {
-            max-height: 330px;
-            margin-top: 14px;
-            padding: 12px;
+        .qr-modal.open {
             opacity: 1;
             visibility: visible;
+            pointer-events: auto;
         }
-        @media (hover: hover) and (pointer: fine) {
-            .beta-card:hover .beta-qr {
-                max-height: 330px;
-                margin-top: 14px;
-                padding: 12px;
-                opacity: 1;
-                visibility: visible;
-            }
+        .qr-dialog {
+            width: min(420px, calc(100vw - 32px));
+            max-height: calc(100vh - 48px);
+            overflow: auto;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            background: var(--white);
+            box-shadow: 0 24px 70px rgba(21, 33, 42, 0.3);
+            position: relative;
+            text-align: center;
+            transform: translateY(12px) scale(0.98);
+            transition: transform 0.2s ease;
         }
+        .qr-modal.open .qr-dialog { transform: translateY(0) scale(1); }
+        .qr-dialog h3 { margin: 0 38px 4px; font-size: 22px; }
+        .qr-dialog .qr-subtitle { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+        .qr-image {
+            width: min(100%, 320px);
+            height: auto;
+            margin: 0 auto;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .qr-dialog .qr-note { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+        .qr-load-error {
+            display: none;
+            margin: 24px 0;
+            color: #a33838;
+            font-size: 14px;
+        }
+        .qr-dialog.image-error .qr-load-error { display: block; }
+        .qr-dialog.image-error .qr-image { display: none; }
+        .qr-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: var(--white);
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+        }
+        .qr-close:hover { background: var(--surface); color: var(--ink); }
 
         .tools-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
         .tool-card {
@@ -272,7 +309,6 @@
             .section-heading h2 { margin-bottom: 12px; font-size: 28px; }
             .status-list, .tools-grid { grid-template-columns: 1fr; }
             .status-item:nth-child(odd), .status-item:nth-child(even) { padding: 22px 0; border-left: 0; }
-            .beta-qr { width: min(250px, 100%); }
             .tool-card { min-height: 310px; }
             .footer-inner { display: block; }
             .footer-inner p + p { margin-top: 8px; }
@@ -335,11 +371,7 @@
                     <article class="status-item beta-card">
                         <h3>Android 测试版</h3>
                         <p>当前正在进行测试，暂不提供公开下载链接。</p>
-                        <button class="beta-trigger" type="button" aria-expanded="false" aria-controls="beta-qr">加入公测群</button>
-                        <div class="beta-qr" id="beta-qr" aria-hidden="true">
-                            <img src="picture/astrorail-beta-qr.png" alt="AstroRail·星途公测微信群二维码">
-                            <p>使用微信扫码加入</p>
-                        </div>
+                        <button class="beta-trigger" type="button" aria-expanded="false" aria-controls="qr-modal">加入公测群</button>
                     </article>
                     <article class="status-item">
                         <h3>iPhone、iPad与Apple Watch</h3>
@@ -348,6 +380,17 @@
                 </div>
             </div>
         </section>
+
+        <div class="qr-modal" id="qr-modal" aria-hidden="true">
+            <div class="qr-dialog" role="dialog" aria-modal="true" aria-labelledby="qr-title">
+                <button class="qr-close" type="button" aria-label="关闭二维码">&times;</button>
+                <h3 id="qr-title">加入 AstroRail·星途公测群</h3>
+                <p class="qr-subtitle">使用微信扫码加入</p>
+                <img class="qr-image" src="./picture/astrorail-beta-qr.png" alt="AstroRail·星途公测微信群二维码" loading="eager">
+                <p class="qr-load-error">二维码暂时无法加载，请刷新页面后重试。</p>
+                <p class="qr-note">二维码有效期至 8 月 29 日</p>
+            </div>
+        </div>
 
         <section class="section alt" id="desktop-tools">
             <div class="section-inner">
@@ -411,22 +454,56 @@
             });
         });
 
-        const betaCard = document.querySelector('.beta-card');
         const betaTrigger = document.querySelector('.beta-trigger');
-        const betaQr = document.querySelector('.beta-qr');
+        const qrModal = document.querySelector('#qr-modal');
+        const qrDialog = document.querySelector('.qr-dialog');
+        const qrClose = document.querySelector('.qr-close');
+        const qrImage = document.querySelector('.qr-image');
+        const hoverMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
+        let hoverCloseTimer;
+
+        function openQrModal() {
+            window.clearTimeout(hoverCloseTimer);
+            qrModal.classList.add('open');
+            qrModal.setAttribute('aria-hidden', 'false');
+            betaTrigger.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeQrModal() {
+            window.clearTimeout(hoverCloseTimer);
+            qrModal.classList.remove('open');
+            qrModal.setAttribute('aria-hidden', 'true');
+            betaTrigger.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('modal-open');
+        }
+
+        function scheduleHoverClose() {
+            window.clearTimeout(hoverCloseTimer);
+            hoverCloseTimer = window.setTimeout(closeQrModal, 260);
+        }
+
         betaTrigger.addEventListener('click', (event) => {
             event.stopPropagation();
-            const isOpen = betaCard.classList.toggle('open');
-            betaTrigger.setAttribute('aria-expanded', String(isOpen));
-            betaQr.setAttribute('aria-hidden', String(!isOpen));
+            if (qrModal.classList.contains('open')) closeQrModal();
+            else openQrModal();
         });
-        document.addEventListener('click', (event) => {
-            if (!betaCard.contains(event.target)) {
-                betaCard.classList.remove('open');
-                betaTrigger.setAttribute('aria-expanded', 'false');
-                betaQr.setAttribute('aria-hidden', 'true');
-            }
+
+        if (hoverMedia.matches) {
+            betaTrigger.addEventListener('mouseenter', openQrModal);
+            betaTrigger.addEventListener('mouseleave', scheduleHoverClose);
+            qrDialog.addEventListener('mouseenter', () => window.clearTimeout(hoverCloseTimer));
+            qrDialog.addEventListener('mouseleave', scheduleHoverClose);
+        }
+
+        qrClose.addEventListener('click', closeQrModal);
+        qrModal.addEventListener('click', (event) => {
+            if (event.target === qrModal) closeQrModal();
         });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && qrModal.classList.contains('open')) closeQrModal();
+        });
+        qrImage.addEventListener('error', () => qrDialog.classList.add('image-error'));
     </script>
 </body>
 </html>
