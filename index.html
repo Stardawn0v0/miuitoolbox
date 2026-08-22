@@ -181,15 +181,17 @@
             overflow: auto;
             padding: 18px;
             border: 1px solid var(--line);
-            border-radius: 12px;
+            border-radius: 16px;
             background: var(--white);
-            box-shadow: 0 18px 48px rgba(21, 33, 42, 0.24);
+            box-shadow: 0 24px 60px -12px rgba(21, 33, 42, 0.32),
+                        0 4px 12px rgba(21, 33, 42, 0.08);
             text-align: center;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transform: translateY(6px) scale(0.98);
-            transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+            transform: translateY(8px) scale(0.96);
+            transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+                        visibility 0.18s;
         }
         .qr-popover.open {
             opacity: 1;
@@ -197,14 +199,16 @@
             pointer-events: auto;
             transform: translateY(0) scale(1);
         }
-        .qr-popover h3 { margin: 0 34px 4px; font-size: 18px; }
+        .qr-popover h3 { margin: 0 34px 4px; font-size: 17px; color: var(--ink); }
         .qr-popover .qr-subtitle { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
         .qr-image {
-            width: min(100%, 320px);
+            width: min(100%, 288px);
             height: auto;
             margin: 0 auto;
-            border-radius: 8px;
+            border-radius: 10px;
             background: #fff;
+            border: 1px solid #eff3f5;
+            display: block;
         }
         .qr-popover .qr-note { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
         .qr-load-error {
@@ -219,18 +223,22 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            width: 36px;
-            height: 36px;
+            width: 28px;
+            height: 28px;
             padding: 0;
-            border: 1px solid var(--line);
+            border: none;
             border-radius: 50%;
-            background: var(--white);
+            background: var(--surface);
             color: var(--muted);
             cursor: pointer;
-            font-size: 24px;
+            font-size: 16px;
             line-height: 1;
+            display: grid;
+            place-items: center;
+            transition: background 0.15s, color 0.15s;
         }
-        .qr-close:hover { background: var(--surface); color: var(--ink); }
+        .qr-close:hover { background: var(--line); color: var(--ink); }
+        .qr-close:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 
         .tools-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
         .tool-card {
@@ -374,9 +382,13 @@
         </section>
 
         <div class="qr-popover" id="qr-popover" role="dialog" aria-modal="false" aria-hidden="true" aria-labelledby="qr-title">
-                <p class="qr-subtitle">使用微信扫码加入</p>
-                <img class="qr-image" src="picture/astrorail-beta-qr.webp" alt="AstroRail·星途公测微信群二维码" loading="eager">
-                <p class="qr-load-error">二维码暂时无法加载，请刷新页面后重试。</p>
+            <button class="qr-close" type="button" aria-label="关闭二维码弹窗">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <h3 id="qr-title">微信扫码加入公测群</h3>
+            <p class="qr-subtitle">使用微信扫码加入</p>
+            <img class="qr-image" src="picture/astrorail-beta-qr.webp" alt="AstroRail·星途公测微信群二维码" loading="eager">
+            <p class="qr-load-error">二维码暂时无法加载，请刷新页面后重试。</p>
         </div>
 
         <section class="section alt" id="desktop-tools">
@@ -474,6 +486,23 @@
             qrPopover.style.top = `${Math.round(top)}px`;
         }
 
+        // Keep the popover anchored to its trigger while the page scrolls or
+        // resizes. positionQrPopover is cheap; rAF throttles the scroll burst.
+        let positionRaf = 0;
+        function schedulePosition() {
+            if (positionRaf) return;
+            positionRaf = window.requestAnimationFrame(() => {
+                positionRaf = 0;
+                if (qrPopover.classList.contains('open')) positionQrPopover();
+            });
+        }
+
+        function triggerInView() {
+            const triggerRect = betaTrigger.getBoundingClientRect();
+            const margin = 8;
+            return triggerRect.bottom > margin && triggerRect.top < window.innerHeight - margin;
+        }
+
         function openQrPopover() {
             window.clearTimeout(hoverCloseTimer);
             qrPopover.classList.add('open');
@@ -514,9 +543,15 @@
         document.addEventListener('click', (event) => {
             if (!qrPopover.contains(event.target) && event.target !== betaTrigger) closeQrPopover();
         });
-        window.addEventListener('resize', () => {
-            if (qrPopover.classList.contains('open')) positionQrPopover();
-        });
+        // Reposition on viewport changes.
+        window.addEventListener('resize', schedulePosition);
+        // Reposition live on scroll (passive: no jitter from preventDefault).
+        window.addEventListener('scroll', schedulePosition, { passive: true });
+        // If the trigger scrolls out of view, close instead of leaving an
+        // orphaned popover floating over unrelated content.
+        window.addEventListener('scroll', () => {
+            if (qrPopover.classList.contains('open') && !triggerInView()) closeQrPopover();
+        }, { passive: true });
         qrImage.addEventListener('load', () => qrPopover.classList.remove('image-error'));
         qrImage.addEventListener('error', () => {
             if (qrSourceIndex < qrSources.length - 1) {
