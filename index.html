@@ -153,11 +153,47 @@
             grid-template-columns: repeat(2, minmax(0, 1fr));
             border-top: 1px solid var(--line);
         }
-        .status-item { padding: 28px 0; border-bottom: 1px solid var(--line); }
+        .status-item { padding: 28px 0; border-bottom: 1px solid var(--line); position: relative; }
         .status-item:nth-child(odd) { padding-right: 32px; }
         .status-item:nth-child(even) { padding-left: 32px; border-left: 1px solid var(--line); }
         .status-item h3 { margin: 0 0 6px; font-size: 20px; }
         .status-item p { margin: 0; color: var(--muted); }
+        .beta-trigger {
+            margin-top: 16px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: var(--astro-dark);
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .beta-trigger::after { content: " +"; }
+        .beta-card.open .beta-trigger::after { content: " −"; }
+        .beta-qr {
+            position: absolute;
+            left: 0;
+            bottom: calc(100% - 18px);
+            z-index: 10;
+            width: 250px;
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--white);
+            box-shadow: 0 18px 48px rgba(21, 33, 42, 0.18);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+        }
+        .beta-qr img { width: 100%; height: auto; }
+        .beta-qr p { margin: 8px 4px 2px; text-align: center; font-size: 12px; }
+        .beta-card:hover .beta-qr,
+        .beta-card:focus-within .beta-qr,
+        .beta-card.open .beta-qr {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
 
         .tools-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
         .tool-card {
@@ -228,6 +264,10 @@
             .section-heading h2 { margin-bottom: 12px; font-size: 28px; }
             .status-list, .tools-grid { grid-template-columns: 1fr; }
             .status-item:nth-child(odd), .status-item:nth-child(even) { padding: 22px 0; border-left: 0; }
+            .beta-qr { left: 50%; bottom: calc(100% - 12px); transform: translate(-50%, 8px); }
+            .beta-card:hover .beta-qr,
+            .beta-card:focus-within .beta-qr,
+            .beta-card.open .beta-qr { transform: translate(-50%, 0); }
             .tool-card { min-height: 310px; }
             .footer-inner { display: block; }
             .footer-inner p + p { margin-top: 8px; }
@@ -287,9 +327,14 @@
                     <p>测试中</p>
                 </div>
                 <div class="status-list">
-                    <article class="status-item">
+                    <article class="status-item beta-card">
                         <h3>Android 测试版</h3>
                         <p>当前正在进行测试，暂不提供公开下载链接。</p>
+                        <button class="beta-trigger" type="button" aria-expanded="false" aria-controls="beta-qr">加入公测群</button>
+                        <div class="beta-qr" id="beta-qr" aria-hidden="true">
+                            <img src="picture/astrorail-beta-qr.png" alt="AstroRail·星途公测微信群二维码">
+                            <p>使用微信扫码加入，二维码有效期至 8 月 29 日</p>
+                        </div>
                     </article>
                     <article class="status-item">
                         <h3>iPhone、iPad与Apple Watch</h3>
@@ -359,6 +404,23 @@
                 event.preventDefault();
                 checkOSAndDownload('https://www.123pan.com/s/a839-epVBv.html');
             });
+        });
+
+        const betaCard = document.querySelector('.beta-card');
+        const betaTrigger = document.querySelector('.beta-trigger');
+        const betaQr = document.querySelector('.beta-qr');
+        betaTrigger.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const isOpen = betaCard.classList.toggle('open');
+            betaTrigger.setAttribute('aria-expanded', String(isOpen));
+            betaQr.setAttribute('aria-hidden', String(!isOpen));
+        });
+        document.addEventListener('click', (event) => {
+            if (!betaCard.contains(event.target)) {
+                betaCard.classList.remove('open');
+                betaTrigger.setAttribute('aria-expanded', 'false');
+                betaQr.setAttribute('aria-hidden', 'true');
+            }
         });
     </script>
 </body>
